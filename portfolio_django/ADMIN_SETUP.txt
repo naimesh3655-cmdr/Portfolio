@@ -1,0 +1,35 @@
+PORTFOLIO ADMIN SETUP
+=====================
+
+1. Open a terminal in this project folder.
+2. Activate your existing environment:
+   ..\env_site\Scripts\Activate.ps1
+3. Run:
+   python manage.py migrate
+4. Start Django:
+   python manage.py runserver
+5. Open:
+   http://127.0.0.1:8000/admin/
+
+A development superuser is created by migration 0004 if it does not already exist:
+Username: portfolio_admin
+Password: Naimesh@123
+
+IMPORTANT: Change this password immediately after logging in from:
+Admin -> Users -> portfolio_admin -> change password.
+
+Existing superuser accounts are not removed or changed.
+
+Admin content available:
+- Portfolio Profile
+- Journey
+- Current Focus
+- Goals
+- Interests
+- Projects
+- Skills
+
+The included seed content already contains your profile, journey, focus, goals,
+interests, skills, and starter projects for BloodLink, AgriLink, and Chatting App.
+Project GitHub/live URLs are intentionally left blank because repository URLs were
+not provided; add them from Django Admin.

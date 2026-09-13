@@ -1,0 +1,112 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="hero section-shell">
+  <div class="hero-copy" data-aos="fade-right">
+    <div class="eyebrow"><span></span> {{ profile.year|default:"2nd Year" }} · CSE · Data Science</div>
+    <h1>Hi, I'm <span>{{ profile.name|default:"Naimesh Padhi" }}.</span></h1>
+    <p class="hero-lead">{{ profile.hero_intro|default:"A curious CSE student at SRM Institute of Science and Technology, specializing in Data Science and Business Systems." }}</p>
+    <p class="hero-note">{{ profile.hero_note|default:"Currently learning, building, breaking, fixing, and shipping projects that help me become a better engineer." }}</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">Explore my work <span>↓</span></a>
+      <a href="#contact" class="btn btn-ghost">Let's connect</a>
+    </div>
+    <div class="social-row">
+      <a class="github-link" href="{{ profile.github_link|default:'https://github.com/naimesh3655-cmdr' }}" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="linkedin-link" href="{{ profile.linkedin_link|default:'https://www.linkedin.com/in/naimesh-padhi-186163326/' }}" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </div>
+
+  <div class="hero-visual" data-aos="fade-left" data-aos-delay="150">
+    <div class="photo-frame">
+      <div class="photo-accent"></div>
+      <img src="{% static 'main/images/profile.jpg' %}" alt="{{ profile.name|default:'Naimesh Padhi' }}" class="profile-photo">
+      <div class="photo-caption"><span class="status-dot"></span> Building something new</div>
+    </div>
+    <div class="mini-card mini-card-one"><span class="mini-icon">⌘</span><div><strong>Build</strong><small>with purpose</small></div></div>
+    <div class="mini-card mini-card-two"><span class="mini-icon">📚</span><div><strong>Learn</strong><small>every day</small></div></div>
+  </div>
+</section>
+
+<section id="about" class="section section-shell">
+  <div class="section-heading" data-aos="fade-up"><span class="section-number">01</span><div><p class="kicker">A little about me</p><h2>{{ profile.tagline|default:"Learning by" }} <span>building.</span></h2></div></div>
+  <div class="about-grid">
+    <div class="about-copy" data-aos="fade-up" data-aos-delay="100">
+      <p>{{ profile.about_intro|default:"I'm a 2nd-year Computer Science and Engineering student at SRM Institute of Science and Technology, specializing in Data Science and Business Systems." }}</p>
+      <p>{{ profile.about_story|default:"I'm building my foundation through programming, DSA, OOP, databases, backend development, and practical projects. I like taking an idea that feels complicated at first and turning it into something structured and useful." }}</p>
+      {% if profile.quote %}<div class="about-quote">“{{ profile.quote }}”</div>{% endif %}
+    </div>
+    <div class="education-card" data-aos="zoom-in" data-aos-delay="180">
+      <span class="card-icon">🎓</span><p class="card-label">Where I am right now</p>
+      <h3>{{ profile.college|default:"SRM Institute of Science and Technology" }}</h3>
+      <p>{{ profile.degree|default:"Computer Science & Engineering" }}</p>
+      <div class="education-meta"><span>{{ profile.specialization|default:"Data Science and Business Systems" }}</span><span>{{ profile.year|default:"2nd Year" }}</span></div>
+    </div>
+  </div>
+
+  {% if profile.about_building or profile.about_data %}
+  <div class="about-features">
+    {% if profile.about_building %}<article class="about-feature" data-aos="fade-up"><span class="feature-icon">💻</span><h3>I like building</h3><p>{{ profile.about_building }}</p></article>{% endif %}
+    {% if profile.about_data %}<article class="about-feature" data-aos="fade-up" data-aos-delay="100"><span class="feature-icon">📊</span><h3>I'm exploring data</h3><p>{{ profile.about_data }}</p></article>{% endif %}
+    <article class="about-feature" data-aos="fade-up" data-aos-delay="200"><span class="feature-icon">🧠</span><h3>I'm strengthening the basics</h3><p>DSA, OOP, databases, programming fundamentals, and problem solving are a big part of what I'm working on right now.</p></article>
+  </div>
+  {% endif %}
+</section>
+
+{% if journey %}
+<section id="journey" class="section section-shell">
+  <div class="section-heading" data-aos="fade-up"><span class="section-number">02</span><div><p class="kicker">How I'm growing</p><h2>My <span>journey.</span></h2></div></div>
+  <div class="timeline">
+    {% for item in journey %}<article class="timeline-item" data-aos="fade-up"><div class="timeline-year">{{ item.year }}</div><div class="timeline-dot"></div><div class="timeline-card"><h3>{{ item.title }}</h3><p>{{ item.description }}</p></div></article>{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section id="projects" class="section section-shell">
+  <div class="section-heading" data-aos="fade-up"><span class="section-number">03</span><div><p class="kicker">Things I've built</p><h2>Projects with a <span>purpose.</span></h2></div></div>
+  <div class="project-grid">
+    {% for project in projects %}
+      <article class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'70' }}">
+        <div class="project-topline"><span class="project-index">0{{ forloop.counter }}</span>{% if project.featured %}<span class="featured">Featured</span>{% endif %}</div>
+        {% if project.image %}<img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-img">{% endif %}
+        <h3>{{ project.title }}</h3><p>{{ project.short_description }}</p>
+        <div class="tech-tags">{% for tech in project.tech_list %}<span class="tag">{{ tech }}</span>{% endfor %}</div>
+        <div class="project-links"><a href="{% url 'project_detail' project.slug %}">View details →</a>{% if project.github_link %}<a class="github-link" href="{{ project.github_link }}" target="_blank" rel="noopener">GitHub ↗</a>{% endif %}</div>
+      </article>
+    {% empty %}<div class="empty-state" data-aos="fade-up"><span>⌁</span><p>Your projects will appear here once you add them through Django Admin.</p></div>{% endfor %}
+  </div>
+</section>
+
+<section id="skills" class="section section-shell">
+  <div class="section-heading" data-aos="fade-up"><span class="section-number">04</span><div><p class="kicker">Tools in my toolbox</p><h2>Skills I'm <span>growing.</span></h2></div></div>
+  <div class="skills-layout"><div class="skill-intro" data-aos="fade-right"><div class="skill-orbit">{ }<span>DS</span></div><p>I don't want to just collect technologies. I want to understand how they work and use the right tool for the problem.</p></div>
+    <div class="skill-groups">{% for group in skills_by_category %}<div class="skill-group" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'80' }}"><h4>{{ group.label }}</h4><div class="skill-tags">{% for skill in group.items %}<span class="tag">{{ skill.name }}</span>{% endfor %}</div></div>{% empty %}<p>Add skills from the Django admin.</p>{% endfor %}</div>
+  </div>
+</section>
+
+{% if focuses %}
+<section id="focus" class="section section-shell">
+  <div class="section-heading" data-aos="fade-up"><span class="section-number">05</span><div><p class="kicker">Right now</p><h2>What I'm <span>learning.</span></h2></div></div>
+  <div class="focus-grid">{% for item in focuses %}<article class="focus-card" data-aos="fade-up"><span>{{ item.icon }}</span><h3>{{ item.title }}</h3><p>{{ item.description }}</p></article>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if goals %}
+<section id="goals" class="section section-shell goals-section">
+  <div class="section-heading" data-aos="fade-up"><span class="section-number">06</span><div><p class="kicker">Where I'm headed</p><h2>What I'm <span>aiming for.</span></h2></div></div>
+  <div class="goal-grid">{% for goal in goals %}<div class="goal-card" data-aos="fade-up"><span>{{ goal.number }}</span><h3>{{ goal.title }}</h3><p>{{ goal.description }}</p></div>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if interests %}
+<section id="beyond-code" class="section section-shell">
+  <div class="section-heading" data-aos="fade-up"><span class="section-number">07</span><div><p class="kicker">Beyond the code</p><h2>A few things I <span>enjoy.</span></h2></div></div>
+  <div class="interest-grid">{% for item in interests %}<article class="interest-card" data-aos="fade-up"><span>{{ item.icon }}</span><h3>{{ item.title }}</h3><p>{{ item.description }}</p></article>{% endfor %}</div>
+</section>
+{% endif %}
+
+<section id="contact" class="section section-shell contact-section">
+  <div class="contact-card" data-aos="zoom-in"><div><p class="kicker">Have an idea?</p><h2>Let's build something <span>interesting.</span></h2><p>{{ profile.contact_text|default:"I'm always open to learning, collaborating, and talking about software, data, and projects." }}</p></div><div class="contact-actions"><a class="btn btn-primary github-button" href="{{ profile.github_link|default:'https://github.com/naimesh3655-cmdr' }}" target="_blank" rel="noopener">GitHub ↗</a><a class="btn btn-ghost linkedin-button" href="{{ profile.linkedin_link|default:'https://www.linkedin.com/in/naimesh-padhi-186163326/' }}" target="_blank" rel="noopener">LinkedIn ↗</a></div></div>
+</section>
+{% endblock %}
