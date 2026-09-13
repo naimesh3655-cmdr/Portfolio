@@ -22,16 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4*n3l_tsy!t@dxsux3wu#$$!7bbdslr&__3k#!nn^mr8xt%5fc'
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-secret-key")
+DEBUG = os.environ.get("RENDER") is None
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
-ALLOWED_HOSTS = [
-    ".vercel.app",
-    "localhost",
-    "127.0.0.1",
-]
+render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if render_hostname:
+    ALLOWED_HOSTS.append(render_hostname)
+
+CSRF_TRUSTED_ORIGINS = []
+if render_hostname:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{render_hostname}")
 
 
 # Application definition
